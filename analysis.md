@@ -17,7 +17,7 @@
 * 登出 User.logout(尚未完成)
 * 商品清單 Market.listItems
 * 上架商品 Market.addItem
-* 商品搜尋 Market.searchItems(尚未完成)(標籤可以是分類或地點等)
+* 商品搜尋 Market.searchItems(部分完成)(標籤可以是分類或地點等)
 
 ## 使用個案 User Story(部分異動)
 
