@@ -1,0 +1,45 @@
+{
+  "name": "pos",
+  "version": "0.0.1",
+  "description": "家庭商店 POS 系統",
+  "main": "server/app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "testS": "mocha test/**/*.js --timeout 50000",
+    "testC": "mocha frontendTest/*.js --timeout 50000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccc-js/pos.git"
+  },
+  "keywords": [
+    "pos",
+    "shop",
+    "mongodb",
+    "koa"
+  ],
+  "author": "劉立行, 陳鍾誠",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ccc-js/pos/issues"
+  },
+  "homepage": "https://github.com/ccc-js/pos#readme",
+  "dependencies": {
+    "browserify": "^16.5.0",
+    "element": "^0.1.4",
+    "fetch": "^1.1.0",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.12.3",
+    "mocha": "^6.2.2",
+    "mongodb": "^3.3.5",
+    "puppeteer": "^2.0.0",
+    "supertest": "^4.0.2",
+    "window": "^4.2.6"
+  }
+}

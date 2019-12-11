@@ -1,0 +1,46 @@
+<html>
+<head>
+    <h1>Ask for anything</h1>
+</head>
+<body>
+    <p>Hi <strong id="uid">${uid}</strong> !</p>
+    <p>Post a task and wait for solution.</p>
+    <button onclick="eating()">food delivery </button>
+    <button onclick="taxi()">taxi transportation </button>
+    <form>
+        <textarea type="text" id="event" placeholder="task content"></textarea>
+        <button type="submit" onclick="create()">Post</button>
+    </form>
+
+    <script>
+
+        function create() {
+            var problem = document.getElementById("event").value
+            var name = `"${uid}"`//document.getElementById("uid").value
+            var Data = { "task": problem, "uid": name }
+            postData('/ask', Data)
+        }
+
+        async function postData(url, data) {
+            // Default options are marked with *
+            await fetch(url, {
+                body: JSON.stringify(data),
+                headers: {
+                    'user-agent': 'Mozilla/4.0 MDN Example',
+                    'content-type': 'application/json'
+                },
+                method: 'POST'
+            })
+        }
+        var x = document.getElementById("event");
+
+        function eating() {
+            x.innerHTML += "food delivery ";
+        }
+
+        function taxi() {
+            x.innerHTML += "taxi transportation ";
+        }
+    </script>
+</body>
+</html>

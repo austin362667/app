@@ -1,0 +1,41 @@
+<html>
+<head>
+    <h1>Signup</h1>
+    <ul>
+        <li><a href="http://localhost:3000/">Home</a></li>
+        <li><a href="http://localhost:3000/sell">Sell</a></li>
+        <li><a href="http://localhost:3000/user/signup">Signup</a></li>
+        <li><a href="http://localhost:3000/user/login">Login</a></li>
+    </ul>
+</head>
+<body>
+  <p>Create a new account.</p>
+  <form>
+    <p><input id="uid" type="text" placeholder="Enter user name" name="uid"></p>
+    <p><input id="password" type="password" placeholder="Enter password" name="password"></p>
+    <p><input id="signup" type="button" value="Signup" onclick="create()"></p>
+  </form>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>
+
+        function create() {
+            var uid = document.getElementById("uid").value
+            var password = document.getElementById("password").value
+            var Data = { uid: uid, password: password }
+            postData('/apis/signup', Data)
+        }
+
+    async function postData(url, data) {
+    // Default options are marked with *
+        await fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+            },
+             method: 'POST'
+        })
+}
+    </script>
+</body>
+</html>
