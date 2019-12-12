@@ -58,16 +58,35 @@ Market.searchItems = async function (ctx) {
     
 }
 
+Market.userBuy = async function (ctx) {
+
+    let post = JSON.parse(ctx.request.body)
+    p = post.id
+    console.log(p)
+    await M.update('ask', post.id, { $set: { state: "sold" } })
+        .then((obj) => {
+        console.log('Updated - ' + obj);
+    })
+        .catch((err) => {
+            console.log('Error: ' + err);
+        }) 
+    
+    ctx.status = 200
+    //alert('Purchased successful!')
+    ctx.redirect('/')
+
+}
+
 Market.listItems = async function (ctx) {
     //await M.deleteMany('ask', {})
     let dbPosts = await M.find('ask', {})
     dbPosts.forEach(function (post, index, array) {
-        console.log(index, post);
+        console.log(index, post)
     })
     uid = ctx.session.user
 
     if (uid) {
-
+        
         ctx.body = `
 <head>
 	<title>Home page</title>
@@ -78,6 +97,7 @@ Market.listItems = async function (ctx) {
   <li><a href="http://localhost:3000/user/signup">Signup</a></li>
   <li><a href="http://localhost:3000/user/login">Login</a></li>
   <li><a href="http://localhost:3000/searchResult">Search</a></li>
+  <li><a href="http://localhost:3000/user/monitor">Monitor</a></li>
 </ul>
 </head>
 <body>
@@ -86,11 +106,29 @@ Market.listItems = async function (ctx) {
   <ul id="posts">
     ${ dbPosts.map(result =>
             `<li>
-        <h5>Content : ${result.task}</h5>
-        <h5>Sell by : ${result.uid}</h5>
+        <h5>Content : ${result.task},  Price : $${result.price}</h5>
+        <h5>Sell by : ${result.uid},  State : ${result.state}</h5>
+        <button type="button" onclick="buy('${result._id}')">BUY!</button>
       </li>`
         ).join('\n')}
   </ul>
+<script type='text/javascript'>
+
+function buy(p){
+  postData('/apis/buy', {id: p})
+}
+
+    async function postData(url, data) {
+    // Default options are marked with *
+        await fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example'
+            },
+            method: 'POST' 
+        })
+}
+</script>
 </body>
  `
     } else {
@@ -138,6 +176,7 @@ Market.editItem = async function (ctx) {
     <button onclick="entertaining()">Entertaining</button>
     <form>
         <textarea  type="text" id="case" placeholder="You can edit goods content here.."></textarea>
+        <input  type="number" id="price" placeholder="please enter price here.."></input>
         <button type="button" onclick="create()">Post</button>
     </form>
 
@@ -145,8 +184,9 @@ Market.editItem = async function (ctx) {
 
         function create() {
             var problem = document.getElementById("case").value
+            var money = document.getElementById("price").value
             var name = "${uid}"//document.getElementById("uid").value
-            var Data = { "task": problem , "uid": name}
+            var Data = { "task": problem , "uid": name, "price": money, "state": "selling"}
             postData('/apis/sell', Data)
         }
 

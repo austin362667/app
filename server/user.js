@@ -46,3 +46,50 @@ User.logout = async function(ctx) {
   ctx.status = 200
   ctx.body = 'OK!'
 }
+
+User.monitor = async function (ctx) {
+    uid = ctx.session.user
+    let dbPosts = await M.find('ask', { $text: { $search: uid } })
+    
+    if (uid) {
+
+        ctx.body = `
+<head>
+	<title>Monitor</title>
+    <h1>Monitor</h1>
+<ul>
+  <li><a href="http://localhost:3000/">Home</a></li>
+  <li><a href="http://localhost:3000/sell">Sell</a></li>
+  <li><a href="http://localhost:3000/user/signup">Signup</a></li>
+  <li><a href="http://localhost:3000/user/login">Login</a></li>
+  <li><a href="http://localhost:3000/searchResult">Search</a></li>
+  <li><a href="http://localhost:3000/user/monitor">Monitor</a></li>
+</ul>
+</head>
+<body>
+<p>Hi <strong>${uid}</strong> !</p>
+<p>You have posted <strong>${dbPosts.length}</strong> items  for sell!</p>
+  <ul id="posts">
+    ${ dbPosts.map(result =>
+            `<li>
+        <h5>Content : ${result.task},  Price : $${result.price}</h5>
+        <h5>Sell by : ${result.uid},  State : ${result.state}</h5>
+      </li>`
+        ).join('\n')}
+  </ul>
+</body>
+ `
+    } else {
+        ctx.body = `
+<head>
+	<title>Monitor</title>
+<ul>
+  <li><a href="http://localhost:3000/">Home</a></li>
+  <li><a href="http://localhost:3000/sell">Sell</a></li>
+  <li><a href="http://localhost:3000/user/signup">Signup</a></li>
+  <li><a href="http://localhost:3000/user/login">Login</a></li>
+</ul>
+</head>
+<p>Please login !</p>`
+    }
+}

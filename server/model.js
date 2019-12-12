@@ -40,3 +40,8 @@ M.find = async function (table, query) {
 
     return await M.db.collection(table).find(query).toArray()
 }
+
+M.update = async function (table,  f,query) {
+
+    return await M.db.collection(table).updateOne({ "_id": ObjectID(f)}, query)
+}

@@ -22,3 +22,5 @@ router
     .post('/apis/sell', Market.addItem)
     .get('/searchResult', View.searchItems)
     .post('/searchResult', Market.searchItems)
+    .get('/user/monitor', User.monitor)
+    .post('/apis/buy', Market.userBuy)
